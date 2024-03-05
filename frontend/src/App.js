@@ -1,14 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
-import Button from './components/Button';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import List from './components/List';
+import Gift from './components/Gift';
 
 function App() {
+  const [lists, setLists] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/lists')
+      .then(response => {
+        console.log(response.data);
+        setLists(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>En premier lieux</h1>
-        <Button textcontent={`Salut quoi`} onClick={()=>console.log(`test`)}/>
-      </header>
+    <div>
+      <h1>My Lists</h1>
+      {/* {lists.map(list => (
+        <div key={list.id}>
+          <List list={list} />
+          {list.gifts.map(gift => (
+            <Gift key={gift.list_id} giftName={gift.name} giftDescription={gift.description} giftPrice={gift.price} giftAncienPrice={gift.previous_price}/>
+          ))}
+        </div>
+      ))} */}
     </div>
   );
 }
