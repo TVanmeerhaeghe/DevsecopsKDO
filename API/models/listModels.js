@@ -66,9 +66,24 @@ function deleteListById(id, callback) {
   );
 }
 
+function createList(name, for_who, ended, callback) {
+  connection.query(
+    "INSERT INTO list (name, for_who, ended) VALUES (?, ?, ?)",
+    [name, for_who, ended],
+    (error, results, fields) => {
+      if (error) {
+        console.error("Erreur lors de la création de la liste :", error);
+        callback(error, null);
+        return;
+      }
+      callback(null, results.insertId);
+    }
+  );
+}
+
 module.exports = {
-  connection: connection,
   getAllLists: getAllLists,
   getListById: getListById,
   deleteListById: deleteListById,
+  createList: createList,
 };

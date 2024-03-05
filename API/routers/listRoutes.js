@@ -49,7 +49,28 @@ router.delete("/delete/:id", (req, res) => {
         .json({ error: "Erreur lors de la suppression de la liste par ID" });
       return;
     }
-    res.status(204).send();
+    res.status(204).send("Suppression réussis");
+  });
+});
+
+router.post("/create", (req, res) => {
+  const { name, for_who, ended } = req.body;
+  listModels.createList(name, for_who, ended, (error, listId) => {
+    if (error) {
+      console.error("Erreur lors de la création de la liste :", error);
+      res.status(500).json({ error: "Erreur lors de la création de la liste" });
+      return;
+    }
+    listModels.getListById(listId, (error, list) => {
+      if (error) {
+        console.error("Erreur lors de la récupération de la liste :", error);
+        res
+          .status(500)
+          .json({ error: "Erreur lors de la création de la liste" });
+        return;
+      }
+      res.status(201).json(list);
+    });
   });
 });
 

@@ -43,7 +43,7 @@ router.delete("/delete/:id", (req, res) => {
         .json({ error: "Erreur lors de la suppression du cadeau par ID" });
       return;
     }
-    res.status(204).send();
+    res.status(204).send("Suppression réussis");
   });
 });
 
