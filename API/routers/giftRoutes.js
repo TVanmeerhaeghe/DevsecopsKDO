@@ -75,4 +75,57 @@ router.post("/create", (req, res) => {
   );
 });
 
+router.patch("/modify/:id", (req, res) => {
+  const giftId = req.params.id;
+  const updateData = req.body;
+
+  giftModels.getGiftById(giftId, (error, currentGift) => {
+    if (error) {
+      console.error("Erreur lors de la récupération du cadeau :", error);
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la récupération du cadeau" });
+      return;
+    }
+    const previousPrice = currentGift.price;
+
+    giftModels.updateGift(giftId, updateData, (error, updatedGift) => {
+      if (error) {
+        console.error("Erreur lors de la mise à jour du cadeau :", error);
+        res
+          .status(500)
+          .json({ error: "Erreur lors de la mise à jour du cadeau" });
+        return;
+      }
+      giftModels.updatePreviousPrice(giftId, previousPrice, (error) => {
+        if (error) {
+          console.error(
+            "Erreur lors de la mise à jour du prix précédent :",
+            error
+          );
+          res
+            .status(500)
+            .json({ error: "Erreur lors de la mise à jour du prix précédent" });
+          return;
+        }
+        giftModels.getGiftById(giftId, (error, gift) => {
+          if (error) {
+            console.error(
+              "Erreur lors de la récupération du cadeau mis à jour :",
+              error
+            );
+            res
+              .status(500)
+              .json({
+                error: "Erreur lors de la récupération du cadeau mis à jour",
+              });
+            return;
+          }
+          res.json(gift);
+        });
+      });
+    });
+  });
+});
+
 module.exports = router;

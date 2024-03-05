@@ -73,9 +73,44 @@ function createGift(
   );
 }
 
+function updateGift(giftId, updateData, callback) {
+  connection.query(
+    "UPDATE gift SET ? WHERE id = ?",
+    [updateData, giftId],
+    (error, results, fields) => {
+      if (error) {
+        console.error("Erreur lors de la mise à jour du cadeau :", error);
+        callback(error, null);
+        return;
+      }
+      callback(null, results.affectedRows > 0 ? updateData : null);
+    }
+  );
+}
+
+function updatePreviousPrice(giftId, previousPrice, callback) {
+  connection.query(
+    "UPDATE gift SET previous_price = ? WHERE id = ?",
+    [previousPrice, giftId],
+    (error, results, fields) => {
+      if (error) {
+        console.error(
+          "Erreur lors de la mise à jour du prix précédent du cadeau :",
+          error
+        );
+        callback(error);
+        return;
+      }
+      callback(null);
+    }
+  );
+}
+
 module.exports = {
   getAllGifts: getAllGifts,
   getGiftById: getGiftById,
   deleteGiftById: deleteGiftById,
   createGift: createGift,
+  updateGift: updateGift,
+  updatePreviousPrice: updatePreviousPrice,
 };
