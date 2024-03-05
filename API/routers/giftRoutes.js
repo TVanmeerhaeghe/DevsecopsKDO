@@ -15,4 +15,22 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/:id", (req, res) => {
+  const giftId = req.params.id;
+  giftModels.getGiftById(giftId, (error, gift) => {
+    if (error) {
+      console.error("Erreur lors de la récupération du cadeau par ID :", error);
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la récupération du cadeau par ID" });
+      return;
+    }
+    if (!gift) {
+      res.status(404).json({ error: "Aucun cadeau trouvé avec cet ID" });
+      return;
+    }
+    res.json(gift);
+  });
+});
+
 module.exports = router;
