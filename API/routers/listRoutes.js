@@ -74,4 +74,34 @@ router.post("/create", (req, res) => {
   });
 });
 
+router.patch("/modify/:id", (req, res) => {
+  const listId = req.params.id;
+  const updateData = req.body;
+
+  listModels.updateList(listId, updateData, (error, updatedList) => {
+    if (error) {
+      console.error("Erreur lors de la mise à jour de la liste :", error);
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la mise à jour de la liste" });
+      return;
+    }
+    listModels.getListById(listId, (error, list) => {
+      if (error) {
+        console.error(
+          "Erreur lors de la récupération de la liste mise à jour :",
+          error
+        );
+        res
+          .status(500)
+          .json({
+            error: "Erreur lors de la récupération de la liste mise à jour",
+          });
+        return;
+      }
+      res.json(list);
+    });
+  });
+});
+
 module.exports = router;

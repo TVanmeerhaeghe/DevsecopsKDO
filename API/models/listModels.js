@@ -81,9 +81,25 @@ function createList(name, for_who, ended, callback) {
   );
 }
 
+function updateList(listId, updateData, callback) {
+  connection.query(
+    "UPDATE list SET ? WHERE id = ?",
+    [updateData, listId],
+    (error, results, fields) => {
+      if (error) {
+        console.error("Erreur lors de la mise à jour de la liste :", error);
+        callback(error, null);
+        return;
+      }
+      callback(null, results.affectedRows > 0 ? updateData : null);
+    }
+  );
+}
+
 module.exports = {
   getAllLists: getAllLists,
   getListById: getListById,
   deleteListById: deleteListById,
   createList: createList,
+  updateList: updateList,
 };
