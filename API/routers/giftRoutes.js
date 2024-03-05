@@ -43,8 +43,36 @@ router.delete("/delete/:id", (req, res) => {
         .json({ error: "Erreur lors de la suppression du cadeau par ID" });
       return;
     }
-    res.status(204).send("Suppression réussis");
+    res.status(200).send("Suppression réussis");
   });
+});
+
+router.post("/create", (req, res) => {
+  const { name, description, price, previous_price, list_id } = req.body;
+  giftModels.createGift(
+    name,
+    description,
+    price,
+    previous_price,
+    list_id,
+    (error, giftId) => {
+      if (error) {
+        console.error("Erreur lors de la création du cadeau :", error);
+        res.status(500).json({ error: "Erreur lors de la création du cadeau" });
+        return;
+      }
+      giftModels.getGiftById(giftId, (error, gift) => {
+        if (error) {
+          console.error("Erreur lors de la récupération du cadeau :", error);
+          res
+            .status(500)
+            .json({ error: "Erreur lors de la récupération du cadeau" });
+          return;
+        }
+        res.status(201).json(gift);
+      });
+    }
+  );
 });
 
 module.exports = router;

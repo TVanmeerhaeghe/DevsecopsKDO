@@ -51,8 +51,31 @@ function deleteGiftById(id, callback) {
   );
 }
 
+function createGift(
+  name,
+  description,
+  price,
+  previous_price,
+  list_id,
+  callback
+) {
+  connection.query(
+    "INSERT INTO gift (name, description, price, previous_price, list_id) VALUES (?, ?, ?, ?, ?)",
+    [name, description, price, previous_price, list_id],
+    (error, results, fields) => {
+      if (error) {
+        console.error("Erreur lors de la création du cadeau :", error);
+        callback(error, null);
+        return;
+      }
+      callback(null, results.insertId);
+    }
+  );
+}
+
 module.exports = {
   getAllGifts: getAllGifts,
   getGiftById: getGiftById,
   deleteGiftById: deleteGiftById,
+  createGift: createGift,
 };

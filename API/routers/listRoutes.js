@@ -49,7 +49,7 @@ router.delete("/delete/:id", (req, res) => {
         .json({ error: "Erreur lors de la suppression de la liste par ID" });
       return;
     }
-    res.status(204).send("Suppression réussis");
+    res.status(200).send("Suppression réussis");
   });
 });
 
