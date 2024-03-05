@@ -48,8 +48,27 @@ function getListById(id, callback) {
   );
 }
 
+function deleteListById(id, callback) {
+  connection.query(
+    "DELETE FROM list WHERE id = ?",
+    [id],
+    (error, results, fields) => {
+      if (error) {
+        console.error(
+          "Erreur lors de la suppression de la liste par ID :",
+          error
+        );
+        callback(error);
+        return;
+      }
+      callback(null);
+    }
+  );
+}
+
 module.exports = {
   connection: connection,
   getAllLists: getAllLists,
   getListById: getListById,
+  deleteListById: deleteListById,
 };

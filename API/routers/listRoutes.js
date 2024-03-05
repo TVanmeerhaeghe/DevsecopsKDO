@@ -36,4 +36,21 @@ router.get("/:id", (req, res) => {
   });
 });
 
+router.delete("/delete/:id", (req, res) => {
+  const listId = req.params.id;
+  listModels.deleteListById(listId, (error) => {
+    if (error) {
+      console.error(
+        "Erreur lors de la suppression de la liste par ID :",
+        error
+      );
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la suppression de la liste par ID" });
+      return;
+    }
+    res.status(204).send();
+  });
+});
+
 module.exports = router;

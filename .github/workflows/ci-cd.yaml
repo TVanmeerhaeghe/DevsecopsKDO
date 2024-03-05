@@ -19,7 +19,7 @@ jobs:
           node-version: "20"
 
       - name: Install API dependencies
-        run: npm install --prefix api/
+        run: npm install --prefix API/
 
       - name: Run API tests
-        run: npm test --prefix api/
+        run: npm test --prefix API/

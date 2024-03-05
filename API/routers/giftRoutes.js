@@ -33,4 +33,18 @@ router.get("/:id", (req, res) => {
   });
 });
 
+router.delete("/delete/:id", (req, res) => {
+  const giftId = req.params.id;
+  giftModels.deleteGiftById(giftId, (error) => {
+    if (error) {
+      console.error("Erreur lors de la suppression du cadeau par ID :", error);
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la suppression du cadeau par ID" });
+      return;
+    }
+    res.status(204).send();
+  });
+});
+
 module.exports = router;

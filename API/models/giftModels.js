@@ -33,7 +33,26 @@ function getGiftById(id, callback) {
   );
 }
 
+function deleteGiftById(id, callback) {
+  connection.query(
+    "DELETE FROM gift WHERE id = ?",
+    [id],
+    (error, results, fields) => {
+      if (error) {
+        console.error(
+          "Erreur lors de la suppression du cadeau par ID :",
+          error
+        );
+        callback(error);
+        return;
+      }
+      callback(null);
+    }
+  );
+}
+
 module.exports = {
   getAllGifts: getAllGifts,
   getGiftById: getGiftById,
+  deleteGiftById: deleteGiftById,
 };
