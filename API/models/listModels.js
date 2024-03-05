@@ -13,7 +13,10 @@ function getAllLists(callback) {
 
 function getListById(id, callback) {
   connection.query(
-    "SELECT * FROM list WHERE id = ?",
+    `SELECT l.id, l.name, l.for_who, g.id AS gift_id, g.name AS gift_name, g.description AS gift_description, g.price, g.previous_price
+       FROM list AS l
+       LEFT JOIN gift AS g ON l.id = g.list_id
+       WHERE l.id = ?`,
     [id],
     (error, results, fields) => {
       if (error) {
@@ -28,7 +31,19 @@ function getListById(id, callback) {
         callback(null, null);
         return;
       }
-      callback(null, results[0]);
+      const listWithGifts = {
+        id: results[0].id,
+        name: results[0].name,
+        for_who: results[0].for_who,
+        gifts: results.map((gift) => ({
+          id: gift.gift_id,
+          name: gift.gift_name,
+          description: gift.gift_description,
+          price: gift.price,
+          previous_price: gift.previous_price,
+        })),
+      };
+      callback(null, listWithGifts);
     }
   );
 }
