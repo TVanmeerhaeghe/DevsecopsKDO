@@ -1,6 +1,6 @@
 import React from 'react';
 
-const List = ({ list }) => {
+const List = ({listName, listFor_who}) => {
   return (
     <div>
       <h2>{listName}</h2>

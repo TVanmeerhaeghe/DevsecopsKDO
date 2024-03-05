@@ -7,25 +7,28 @@ function App() {
   const [lists, setLists] = useState([]);
 
   useEffect(() => {
-    axios.get('/')
+    axios.get('http://localhost:3000/lists')
       .then(response => {
         console.log(response.data);
-        setLists(response.data);
+        if (Array.isArray(response.data)) { // Vérifiez si response.data est un tableau
+          setLists(response.data);
+          console.log(response.data)
+        } else {
+          console.log('Data received is not an array:', response.data);
+        }
       })
       .catch(error => {
         console.error('Error fetching data: ', error);
       });
   }, []);
+  
 
   return (
     <div>
       <h1>My Lists</h1>
       {lists.map(list => (
         <div key={list.id}>
-          <List list={list} />
-          {list.gifts.map(gift => (
-            <Gift key={gift.list_id} giftName={gift.name} giftDescription={gift.description} giftPrice={gift.price} giftPreviousPrice={gift.previous_price}/>
-          ))}
+          <List listName={list.name} listFor_who={list.for_who} />
         </div>
       ))}
     </div>
