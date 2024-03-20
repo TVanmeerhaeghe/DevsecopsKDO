@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const ListPage = () => {
   const [lists, setLists] = useState([]);
-  
+
   useEffect(() => {
     axios.get('http://localhost:3000/lists')
       .then(response => {
@@ -27,8 +27,7 @@ const ListPage = () => {
         <div key={list.id}>
           <h2>{list.name}</h2>
           <p>For: {list.for_who}</p>
-          <Link to={`/gifts/${list.id}`}>View Gifts</Link>
-          console.log(${list.id})
+          <Link to={`/lists/${list.id}`}>View Gifts</Link>
         </div>
       ))}
     </div>
