@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const ListPage = () => {
   const [lists, setLists] = useState([]);
@@ -27,7 +28,6 @@ const ListPage = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:3000/lists/delete/${id}`);
-      // Mise à jour de la liste après suppression
       setLists(lists.filter(list => list.id !== id));
     } catch (error) {
       console.error('Error deleting list:', error);
@@ -49,7 +49,6 @@ const ListPage = () => {
   const handleSubmit = async (id) => {
     try {
       await axios.patch(`http://localhost:3000/lists/modify/${id}`, formData);
-      // Actualiser la liste après modification
       setLists(lists.map(list => list.id === id ? { ...list, ...formData } : list));
       setEditableListId(null);
     } catch (error) {
@@ -73,6 +72,7 @@ const ListPage = () => {
               <h2 onClick={() => handleEdit(list.id, list.name, list.for_who)}>{list.name}</h2>
               <p onClick={() => handleEdit(list.id, list.name, list.for_who)}>For: {list.for_who}</p>
               <button onClick={() => handleDelete(list.id)}>Delete</button>
+              <Link to={`/lists/${list.id}`}><button>View Gift</button></Link>
             </div>
           )}
         </div>
