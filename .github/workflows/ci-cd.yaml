@@ -37,4 +37,4 @@ jobs:
         run: npx eslint .
 
       - name: Run Jest tests
-        run: npx jest --prefix API/
+        run: npx jest API/
