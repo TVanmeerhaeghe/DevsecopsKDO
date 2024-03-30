@@ -4,10 +4,12 @@ import ListPage from "./pages/ListPage";
 import GiftInListPage from "./pages/GiftInListPage";
 import CreatePage from "./pages/CreatePage";
 import GiftPage from "./pages/GiftPage";
+import Header from "./Header";
 
 const App = () => {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<ListPage />} />
         <Route path="/lists" element={<ListPage />} />
