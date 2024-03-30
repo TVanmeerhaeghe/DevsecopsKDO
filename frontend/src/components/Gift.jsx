@@ -6,7 +6,7 @@ const Gift = ({giftName, giftDescription, giftPrice, giftPreviousPrice}) => {
       <h3>{giftName}</h3>
       <p>Description: {giftDescription}</p>
       <p>Price: {giftPrice}</p>
-      <p>Price: {giftPreviousPrice}</p>
+      <p>Previous price: {giftPreviousPrice}</p>
     </div>
   );
 }
