@@ -9,20 +9,33 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    services:
+      db:
+        image: mysql:5.7
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
 
-      - name: Install API dependencies
-        run: npm install --prefix API/
+  - name: Install Node.js
+    uses: actions/setup-node@v4
+    with:
+      node-version: "20"
 
-      - name: Install Frontend Dependencies
-        run: npm install --prefix frontend/
+  - name: Install API dependencies
+    run: npm install --prefix API/
 
-      - name: Run ESLint
-        run: npx eslint .
+  - name: Install Frontend Dependencies
+    run: npm install --prefix frontend/
+
+  - name: Wait for database to be ready
+    run: dockerize -wait tcp://localhost:3306 -timeout 1m
+
+  - name: Run ESLint
+    run: npx eslint .
+
+  - name: Run Jest tests
+    run: npx jest --prefix API/
