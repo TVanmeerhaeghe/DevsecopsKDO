@@ -6,12 +6,52 @@ body {
   padding: 0;
 }
 
+/* Header styles */
+header {
+  background-color: #007bff;
+  padding: 10px 0;
+}
+
+/* Navigation styles */
+header nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+header nav ul li {
+  display: inline;
+  margin-right: 20px;
+  margin-left: 30px;
+}
+
+header nav ul li:last-child {
+  margin-right: 0;
+}
+
+/* Link styles */
+header nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+header nav ul li a:hover {
+  color: #0056b3;
+}
+
 /* Container styles */
 div > h1 {
   font-size: 24px;
   font-weight: 500;
   color: #333;
   margin-bottom: 20px;
+}
+
+div > h1 > span > p {
+  color: red;
+  font-size: 15px;
 }
 
 /* Heading styles */
@@ -79,4 +119,102 @@ div > div > div > div:hover {
 div > div > div > div > p {
   font-size: 16px;
   color: #555;
+}
+
+/* Form styles */
+form {
+  max-width: 400px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Form input styles */
+form div {
+  margin-bottom: 15px;
+}
+
+form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+form input[type="text"],
+form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Form button styles */
+form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button[type="submit"] {
+  width: 100%;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+/* Container styles */
+div > h1 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Gift styles */
+div > div {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+div > div:last-child {
+  margin-bottom: 0;
+}
+
+/* Gift name styles */
+div > div > h2 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+/* Gift description styles */
+div > div > p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* Gift price styles */
+div > div > .price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Gift previous price styles */
+div > div > .previous-price {
+  font-size: 14px;
+  color: #999;
+  text-decoration: line-through;
 }

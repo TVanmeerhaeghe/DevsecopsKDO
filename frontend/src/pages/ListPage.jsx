@@ -58,7 +58,7 @@ const ListPage = () => {
 
   return (
     <div>
-      <h1>My Lists</h1>
+      <h1>My Lists <span><p>(Click to edit the list)</p></span></h1>
       {lists.map(list => (
         <div key={list.id}>
           {editableListId === list.id ? (
