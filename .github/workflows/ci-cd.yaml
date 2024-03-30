@@ -33,9 +33,6 @@ jobs:
       - name: Install Frontend Dependencies
         run: npm install --prefix frontend/
 
-      - name: Wait for database to be ready
-        run: dockerize -wait tcp://localhost:3306 -timeout 1m
-
       - name: Run ESLint
         run: npx eslint .
 
