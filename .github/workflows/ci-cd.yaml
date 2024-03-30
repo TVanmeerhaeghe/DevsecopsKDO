@@ -16,26 +16,26 @@ jobs:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-steps:
-  - name: Checkout repository
-    uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-  - name: Install Node.js
-    uses: actions/setup-node@v4
-    with:
-      node-version: "20"
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
-  - name: Install API dependencies
-    run: npm install --prefix API/
+      - name: Install API dependencies
+        run: npm install --prefix API/
 
-  - name: Install Frontend Dependencies
-    run: npm install --prefix frontend/
+      - name: Install Frontend Dependencies
+        run: npm install --prefix frontend/
 
-  - name: Wait for database to be ready
-    run: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - name: Wait for database to be ready
+        run: dockerize -wait tcp://localhost:3306 -timeout 1m
 
-  - name: Run ESLint
-    run: npx eslint .
+      - name: Run ESLint
+        run: npx eslint .
 
-  - name: Run Jest tests
-    run: npx jest --prefix API/
+      - name: Run Jest tests
+        run: npx jest --prefix API/
