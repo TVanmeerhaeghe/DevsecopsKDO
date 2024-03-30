@@ -22,7 +22,9 @@ jobs:
         run: npm install --prefix API/
 
       - name: Install Frontend Dependencies
-        run: npm install --prefix Frontend/
+        run: |
+          cd Frontend/
+          npm install
 
       - name: Run ESLint
         run: npx eslint .
