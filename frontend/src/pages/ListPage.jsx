@@ -71,7 +71,7 @@ const ListPage = () => {
             <div>
               <h2 onClick={() => handleEdit(list.id, list.name, list.for_who)}>{list.name}</h2>
               <p onClick={() => handleEdit(list.id, list.name, list.for_who)}>For: {list.for_who}</p>
-              <button onClick={() => handleDelete(list.id)}>Delete</button>
+              <button onClick={() => handleDelete(list.id)} className='deletebtn'>Delete</button>
               <Link to={`/lists/${list.id}`}><button>View Gift</button></Link>
             </div>
           )}
