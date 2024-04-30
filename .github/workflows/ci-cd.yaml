@@ -25,4 +25,4 @@ jobs:
         run: npm install --prefix frontend/
 
       - name: Run ESLint
-        run: npx eslint .
+        run: npx eslint --prefix API/
