@@ -12,6 +12,7 @@ self.addEventListener("install", (e) => {
         "/src/app.css",
         "/src/index.css",
         "/src/app.js",
+        "/public/service-worker.js",
       ]);
     })
   );
@@ -20,7 +21,10 @@ self.addEventListener("install", (e) => {
 self.addEventListener("fetch", (event) => {
   const { request } = event;
 
-  if (request.url.startsWith(self.location.origin)) {
+  if (
+    request.url.startsWith(self.location.origin) &&
+    !request.url.startsWith("chrome-extension://")
+  ) {
     event.respondWith(cacheFirst(request));
   } else {
     event.respondWith(networkFirst(request));
