@@ -35,11 +35,24 @@ const CreateGiftForm = () => {
         list_id: listId
       });
       console.log('Gift created:', response.data);
+      // Appel de la fonction sendNotification() après la création réussie du cadeau
+      sendNotification(name, response.data.list_name);
       navigate(`/`);
     } catch (error) {
       console.error('Error creating gift:', error);
     }
   };
+
+  // Définition de la fonction sendNotification() pour send la notification
+  function sendNotification(giftName) {
+    if ('serviceWorker' in navigator && Notification.permission === 'granted') {
+      navigator.serviceWorker.getRegistration().then(function(registration) {
+        registration.showNotification('New gift added', {
+          body: `${giftName} has been added to this list`, // Utilisation du nom du cadeau et du nom de la liste dans le corps de la notification
+        });
+      });
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit}>
