@@ -25,10 +25,11 @@ const ListPage = () => {
       });
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, name) => {
     try {
       await axios.delete(`http://localhost:3000/lists/delete/${id}`);
       setLists(lists.filter(list => list.id !== id));
+      sendNotification(name);
     } catch (error) {
       console.error('Error deleting list:', error);
     }
@@ -56,6 +57,16 @@ const ListPage = () => {
     }
   };
 
+  function sendNotification(listName) {
+    if ('serviceWorker' in navigator && Notification.permission === 'granted') {
+      navigator.serviceWorker.getRegistration().then(function(registration) {
+        registration.showNotification('List deleted', {
+          body: `${listName} has been deleted`,
+        });
+      });
+    }
+  }
+
   return (
     <div>
       <h1>My Lists <span><p>(Click to edit the list)</p></span></h1>
@@ -71,7 +82,7 @@ const ListPage = () => {
             <div>
               <h2 onClick={() => handleEdit(list.id, list.name, list.for_who)}>{list.name}</h2>
               <p onClick={() => handleEdit(list.id, list.name, list.for_who)}>For: {list.for_who}</p>
-              <button onClick={() => handleDelete(list.id)} className='deletebtn'>Delete</button>
+              <button onClick={() => handleDelete(list.id, list.name)} className='deletebtn'>Delete</button>
               <Link to={`/lists/${list.id}`}><button>View Gift</button></Link>
             </div>
           )}
