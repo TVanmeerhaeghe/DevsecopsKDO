@@ -16,11 +16,22 @@ const CreateListForm = () => {
         ended: true
       });
       console.log('List created:', response.data);
+      sendNotification(name);
       navigate(`/`);
     } catch (error) {
       console.error('Error creating list:', error);
     }
   };
+
+  function sendNotification(listName) {
+    if ('serviceWorker' in navigator && Notification.permission === 'granted') {
+      navigator.serviceWorker.getRegistration().then(function(registration) {
+        registration.showNotification('New list added', {
+          body: `${listName} has been created`,
+        });
+      });
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit}>

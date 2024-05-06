@@ -1,5 +1,4 @@
 /*eslint-disable no-restricted-globals*/
-
 const assetVersion = 1;
 const assetCacheKey = "assets-v" + assetVersion;
 const apiCacheKey = "api-v1";
@@ -30,6 +29,16 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(networkFirst(request));
   }
 });
+
+self.addEventListener('push', function(event) {
+  const payload = event.data ? event.data.text() : 'no payload';
+  event.waitUntil(
+    self.registration.showNotification('Titre de la notification', {
+      body: payload,
+    })
+  );
+});
+
 
 async function cacheFirst(request) {
   const cacheResponse = await caches.match(request);
