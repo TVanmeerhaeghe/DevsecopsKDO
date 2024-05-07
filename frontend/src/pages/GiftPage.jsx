@@ -28,10 +28,11 @@ const GiftPage = () => {
       });
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, name) => {
     try {
       await axios.delete(`http://localhost:3000/gifts/delete/${id}`);
       setGifts(gifts.filter(gift => gift.id !== id));
+      envoyerNotification(name);
     } catch (error) {
       console.error('Error deleting gift:', error);
     }
@@ -40,7 +41,7 @@ const GiftPage = () => {
   const handleEdit = (id, name, description, price, previousPrice, listId) => {
     setEditableGiftId(id);
     setFormData({ name, description, price, previous_price: previousPrice, list_id: listId });
-    setPreviousPrice(price); // Stockage de l'ancien prix lors de l'édition
+    setPreviousPrice(price);
   };
 
   const handleChange = (e) => {
@@ -48,7 +49,7 @@ const GiftPage = () => {
       setFormData({
         ...formData,
         [e.target.name]: e.target.value,
-        previous_price: previousPrice // Mise à jour du previous_price avec l'ancien prix
+        previous_price: previousPrice
       });
     } else {
       setFormData({
@@ -67,6 +68,16 @@ const GiftPage = () => {
       console.error('Error modifying gift:', error);
     }
   };
+
+  function envoyerNotification(giftName) {
+    if ('serviceWorker' in navigator && Notification.permission === 'granted') {
+      navigator.serviceWorker.getRegistration().then(function(registration) {
+        registration.showNotification('Gift deleted', {
+          body: `${giftName} has been deleted`,
+        });
+      });
+    }
+  }
 
   return (
     <div>
@@ -89,7 +100,7 @@ const GiftPage = () => {
               <p onClick={() => handleEdit(gift.id, gift.name, gift.description, gift.price, gift.previous_price, gift.list_id)}>Price: {gift.price}</p>
               <p onClick={() => handleEdit(gift.id, gift.name, gift.description, gift.price, gift.previous_price, gift.list_id)}>Previous Price: {gift.previous_price}</p>
               <p onClick={() => handleEdit(gift.id, gift.name, gift.description, gift.price, gift.previous_price, gift.list_id)}>List ID: {gift.list_id}</p>
-              <button onClick={() => handleDelete(gift.id)}>Delete</button>
+              <button onClick={() => handleDelete(gift.id, gift.name)}>Delete</button>
             </div>
           )}
         </div>
